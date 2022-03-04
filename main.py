@@ -1,11 +1,10 @@
 import json
-import os
+from os import path
 from helpers import getListOfFiles
-from pathlib import Path
 
-path = Path('data/advisory-database/advisories/github-reviewed')
-# path = Path('data/advisory-database/advisories/unreviewed')
-files = getListOfFiles(path)
+file_path = path.join(*'data/advisory-database/advisories/github-reviewed'.split('/'))
+# file_path = path.join(*'data/advisory-database/advisories/unreviewed'.split('/'))
+files = getListOfFiles(file_path)
 
 counts = dict()
 
