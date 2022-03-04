@@ -9,7 +9,7 @@ files = getListOfFiles(file_path)
 counts = dict()
 
 for file in files:
-    f = open(file)
+    f = open(file, 'r', encoding='utf-8')
     json_data = json.load(f)
     if len(json_data['affected']):
         ecosystem = json_data['affected'][0]['package']['ecosystem']
