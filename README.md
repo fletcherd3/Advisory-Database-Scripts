@@ -3,5 +3,7 @@
 
 ### Setup
 ```
-cd data && git clone https://github.com/github/advisory-database.git
+To get data type:
+    git submodule init
+    git submodule update
 ```
