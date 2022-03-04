@@ -1,0 +1,3 @@
+[submodule "data/advisory-database"]
+	path = data/advisory-database
+	url = git@github.com:github/advisory-database.git
