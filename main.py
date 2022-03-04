@@ -1,23 +1,27 @@
 import json
 from os import path
 from helpers import getListOfFiles
+from vulnerability import Vulnerability
 
 file_path = path.join(*'data/advisory-database/advisories/github-reviewed'.split('/'))
-# file_path = path.join(*'data/advisory-database/advisories/unreviewed'.split('/'))
 files = getListOfFiles(file_path)
 
-counts = dict()
+vulnerabilities = []
+affected_packages = set()
 
 for file in files:
     f = open(file, 'r', encoding='utf-8')
     json_data = json.load(f)
     if len(json_data['affected']):
-        ecosystem = json_data['affected'][0]['package']['ecosystem']
-        if ecosystem in counts:
-            counts[ecosystem] += 1
-        else:
-            counts[ecosystem] = 1
+        new_vulnerability = Vulnerability(json_data)
+        vulnerabilities.append(new_vulnerability)
+        affected_packages.add(new_vulnerability.package)
+        if new_vulnerability.package.manager == 'npm':
+            print(new_vulnerability.package.name)
+            print(new_vulnerability.package.dependants)
+            print("--------------")
+        # print(new_vulnerability)
 
-print("Vulnerabilities per package manager\n")
-for key in counts:
-    print(key, counts[key])
+# list_affected_packages = list(dict.fromkeys(affected_packages))
+# for i in range(len(list_affected_packages)):
+#     print(list_affected_packages[i])
