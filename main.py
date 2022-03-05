@@ -1,27 +1,27 @@
 import json
 from os import path
-from helpers import getListOfFiles
+from helpers import get_list_of_files
 from vulnerability import Vulnerability
+from datetime import datetime
 
 file_path = path.join(*'data/advisory-database/advisories/github-reviewed'.split('/'))
-files = getListOfFiles(file_path)
+files = get_list_of_files(file_path)
 
 vulnerabilities = []
-affected_packages = set()
+
+print("Started at {0}".format(datetime.now()))
 
 for file in files:
     f = open(file, 'r', encoding='utf-8')
     json_data = json.load(f)
     if len(json_data['affected']):
-        new_vulnerability = Vulnerability(json_data)
-        vulnerabilities.append(new_vulnerability)
-        affected_packages.add(new_vulnerability.package)
-        if new_vulnerability.package.manager == 'npm':
-            print(new_vulnerability.package.name)
-            print(new_vulnerability.package.dependants)
-            print("--------------")
-        # print(new_vulnerability)
+        vulnerabilities.append(Vulnerability(json_data))
 
-# list_affected_packages = list(dict.fromkeys(affected_packages))
-# for i in range(len(list_affected_packages)):
-#     print(list_affected_packages[i])
+print("Finished at {0}".format(datetime.now()))
+print(len(vulnerabilities))
+
+# for i in range(10):
+#     f = open(files[i], 'r', encoding='utf-8')
+#     json_data = json.load(f)
+#     if len(json_data['affected']):
+#         vulnerabilities.append(Vulnerability(json_data))
