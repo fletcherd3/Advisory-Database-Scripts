@@ -18,7 +18,8 @@ for file in files:
         vulnerabilities.append(Vulnerability(json_data))
 
 print("Finished at {0}".format(datetime.now()))
-print(len(vulnerabilities))
+
+print(len(vulnerabilities)) 
 
 # for i in range(10):
 #     f = open(files[i], 'r', encoding='utf-8')
