@@ -1,7 +1,5 @@
 from datetime import datetime
-from asyncio.windows_events import NULL
 import json
-import requests
 from os import path
 from helpers import getListOfFiles
 from pybraries.search import Search
@@ -29,7 +27,7 @@ for file in files:
         published = datetime.strptime(json_data['published'], "%Y-%m-%dT%H:%M:%SZ")
 
         # Get Fixed
-        fixed = NULL
+        fixed = None
         try:
             fixed = json_data['affected'][0]['ranges'][0]['events'][1]['fixed']
         except IndexError:
@@ -43,7 +41,7 @@ for file in files:
             counts[ecosystem]['unfixed'] = dict()
 
         if fixed:
-            info = NULL
+            info = None
 
             # Using search to find packagist and go packages due to oddities with package names
             # Not perfect but works in most cases
