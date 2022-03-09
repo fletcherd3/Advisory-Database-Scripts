@@ -20,3 +20,9 @@ def getListOfFiles(dirName):
             allFiles.append(fullPath)
 
     return allFiles
+
+
+def isValidVersion(version):
+    if not  version or version == '0':
+        return False
+    return True
