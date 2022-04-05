@@ -20,11 +20,20 @@ for file in files:
         print(count)
         vulnerabilities.append(Vulnerability(json_data))
 
+
 print("Finished at {0}".format(datetime.now()))
+
+
 
 print(len(vulnerabilities)) 
 for v in vulnerabilities:
-    print(v)
+    print("Vulnerability Name:", v.package)
+    print("Vulnerability Range:", v.affected_versions)
+
+    for _, row in v.dependents.iterrows():
+        print(row["Project"], row["Version"], row["Constraint"])
+
+
 # for i in range(10):
 #     f = open(files[i], 'r', encoding='utf-8')
 #     json_data = json.load(f)

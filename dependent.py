@@ -17,22 +17,21 @@ PACKAGE_MANAGER = {
 
 INPUT_PATH = 'data/'
 
-REQUIRED_COLS = ["Project", "Constraint", "Dependency ID"]
+REQUIRED_COLS = ["Project", "Constraint", "Version", "Dependency ID"]
 
 
 # print("Opening Dependancy Data")
 # data = dask.dataframe.read_csv(os.path.join(INPUT_PATH, 'libio-dependencies.csv'), header=0, dtype={'Project': 'str'}, usecols=REQUIRED_COLS)
-# data.set_index("EC")
+# data.set_index("Dependency ID")
 # data = data.persist()
 # print("Done")
 
 
 def set_dependents(package_id):
-    print(package_id)
     df = data[data["Dependency ID"] == float(int(package_id))]
-    result = df[["Project", "Constraint"]]
+    result = df[["Project", "Constraint", "Version"]]
     result = result.compute()
-    print(result)
+    return result
 
 class Dependent:
     def __init__(self, package_info):
