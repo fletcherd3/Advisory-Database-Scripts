@@ -1,12 +1,6 @@
 import os
-from dotenv import load_dotenv
-import requests
-import json
-import time
-
-load_dotenv()
-
-API_KEY = os.getenv('API_KEY')
+import dask.dataframe
+import pandas
 
 # Github Advisory Database to Libraries.io package manager mapping
 PACKAGE_MANAGER = {
@@ -20,18 +14,24 @@ PACKAGE_MANAGER = {
     'crates.io': 'Cargo'
 }
 
+INPUT_PATH = 'data/'
 
-def set_dependents(package_name, package_manager):
-    time.sleep(1)  # API has a request limit, so have to delay in between requests
-    res = requests.get('https://libraries.io/api/{0}/{1}/dependents?api_key={2}'.format(package_manager, package_name, API_KEY))
+REQUIRED_COLS = ["Project", "Constraint", "Dependency ID"]
 
-    dependents = []
-    if res.status_code == 200:
-        response = json.loads(res.text)
-        for dependent in response:
-            dependents.append(Dependent(dependent))
-    return dependents
 
+print("Opening Dependancy Data")
+data = dask.dataframe.read_csv(os.path.join(INPUT_PATH, 'libio-dependencies.csv'), header=0, dtype={'Project': 'str'}, usecols=REQUIRED_COLS)
+data.set_index("Dependency ID")
+data = data.persist()
+print("Done")
+
+
+def set_dependents(package_id):
+    print(package_id)
+    df = data[data["Dependency ID"] == float(int(package_id))]
+    result = df[["Project", "Constraint"]]
+    result = result.compute()
+    print(result)
 
 class Dependent:
     def __init__(self, package_info):

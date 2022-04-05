@@ -8,6 +8,7 @@ file_path = path.join(*'data/advisory-database/advisories/github-reviewed'.split
 files = get_list_of_files(file_path)
 
 vulnerabilities = []
+count = 0
 
 print("Started at {0}".format(datetime.now()))
 
@@ -15,12 +16,15 @@ for file in files:
     f = open(file, 'r', encoding='utf-8')
     json_data = json.load(f)
     if len(json_data['affected']):
+        count += 1
+        print(count)
         vulnerabilities.append(Vulnerability(json_data))
 
 print("Finished at {0}".format(datetime.now()))
 
 print(len(vulnerabilities)) 
-
+for v in vulnerabilities:
+    print(v)
 # for i in range(10):
 #     f = open(files[i], 'r', encoding='utf-8')
 #     json_data = json.load(f)
