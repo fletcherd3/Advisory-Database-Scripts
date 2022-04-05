@@ -2,6 +2,7 @@ import os
 import dask.dataframe
 import pandas
 
+
 # Github Advisory Database to Libraries.io package manager mapping
 PACKAGE_MANAGER = {
     'RubyGems': 'Rubygems',
@@ -19,11 +20,11 @@ INPUT_PATH = 'data/'
 REQUIRED_COLS = ["Project", "Constraint", "Dependency ID"]
 
 
-print("Opening Dependancy Data")
-data = dask.dataframe.read_csv(os.path.join(INPUT_PATH, 'libio-dependencies.csv'), header=0, dtype={'Project': 'str'}, usecols=REQUIRED_COLS)
-data.set_index("Dependency ID")
-data = data.persist()
-print("Done")
+# print("Opening Dependancy Data")
+# data = dask.dataframe.read_csv(os.path.join(INPUT_PATH, 'libio-dependencies.csv'), header=0, dtype={'Project': 'str'}, usecols=REQUIRED_COLS)
+# data.set_index("EC")
+# data = data.persist()
+# print("Done")
 
 
 def set_dependents(package_id):
