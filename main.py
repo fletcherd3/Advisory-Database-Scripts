@@ -1,5 +1,7 @@
 import json
 from os import path
+
+import constraint
 from helpers import get_list_of_files
 from vulnerability import Vulnerability
 from datetime import datetime
@@ -24,14 +26,13 @@ for file in files:
 print("Finished at {0}".format(datetime.now()))
 
 
-
 print(len(vulnerabilities)) 
 for v in vulnerabilities:
     print("Vulnerability Name:", v.package)
-    print("Vulnerability Range:", v.affected_versions)
+    print("Affected Versions:", v.affected_versions)
 
     for _, row in v.dependents.iterrows():
-        print(row["Project"], row["Version"], row["Constraint"])
+        print(row["Project"], row["Version"], constraint.check_affected_versions(v.affected_versions, row["Constraint"]))
 
 
 # for i in range(10):
